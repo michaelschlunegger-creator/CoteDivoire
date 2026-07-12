@@ -166,4 +166,33 @@ body{overflow-x:hidden}
 
 @media(max-width:1450px){.grouped-nav{display:none}.mobile-menu{display:block}}
 @media(max-width:900px){.gateway-grid,.programme-format-grid,.commercial-grid{grid-template-columns:1fr}.participant-entry-inner,.app-access-card{grid-template-columns:1fr}.travel-section,.travel-section:has(.destination-image){grid-template-columns:60px 1fr}.travel-section .destination-image{grid-column:2}.programme-link-band{margin:45px 22px 0}.gateway-card{min-height:450px}}
-@media(max-width:600px){.header-logo-pair .header-logo-canvas,.header-logo-pair .header-logo-canvas:first-child,.header-logo-pair .header-logo-canvas:last-child{width:68px;height:31px}.header-logo-pair .header-aapg-mark{width:68px;height:31px}.header-logo-pair .eage-wordmark-crop .header-eage-mark{top:-5px;width:91px}.gateway-card{padding:23px;min-height:465px}.gateway-open{left:23px}.participant-entry-actions{display:grid}.participant-entry-actions .button{width:100%}.programme-link-band{align-items:flex-start;flex-direction:column}.programme-link-band .button{width:100%}.programme-format-grid{gap:10px}.programme-format-card,.commercial-card{padding:23px}.travel-section,.travel-section:has(.destination-image){grid-template-columns:1fr;padding:23px}.travel-section-index{font-size:32px}.travel-section .destination-image{grid-column:1;min-height:260px}.policy-placeholder,.app-access-card{padding:28px 22px}.commercial-card{min-height:260px}}
+@media(max-width:600px){.header-logo-pair .header-logo-canvas,.header-logo-pair .header-logo-canvas:first-child,.header-logo-pair .header-logo-canvas:last-child{width:68px;height:31px}.header-logo-pair .header-aapg-mark,.header-logo-pair .header-eage-mark{width:68px;height:31px}.gateway-card{padding:23px;min-height:465px}.gateway-open{left:23px}.participant-entry-actions{display:grid}.participant-entry-actions .button{width:100%}.programme-link-band{align-items:flex-start;flex-direction:column}.programme-link-band .button{width:100%}.programme-format-grid{gap:10px}.programme-format-card,.commercial-card{padding:23px}.travel-section,.travel-section:has(.destination-image){grid-template-columns:1fr;padding:23px}.travel-section-index{font-size:32px}.travel-section .destination-image{grid-column:1;min-height:260px}.policy-placeholder,.app-access-card{padding:28px 22px}.commercial-card{min-height:260px}}
+
+/* Header organizer lockup: official marks only, equally sized and never cropped. */
+.header-logo-pair .header-logo-canvas,
+.header-logo-pair .header-logo-canvas:first-child,
+.header-logo-pair .header-logo-canvas:last-child{display:grid;place-items:center;width:112px;height:44px;overflow:visible;padding:0;border:0;border-radius:0;background:transparent!important}
+.header-logo-pair .header-aapg-mark,
+.header-logo-pair .header-eage-mark{position:static;display:block;width:112px;height:44px;max-width:100%;object-fit:contain;object-position:center;transform:none}
+.header-logo-pair .header-aapg-mark{filter:brightness(0) invert(1)}
+.header-logo-pair .header-eage-mark{filter:none}
+@media(max-width:760px){.header-logo-pair .header-logo-canvas,.header-logo-pair .header-logo-canvas:first-child,.header-logo-pair .header-logo-canvas:last-child{width:68px;height:31px}.header-logo-pair .header-aapg-mark,.header-logo-pair .header-eage-mark{width:68px;height:31px}}
+
+/* Defeat the legacy second-logo crop rule at every breakpoint. */
+.header-logo-pair>.header-logo-canvas:last-child>.header-eage-mark{
+  position:static;
+  inset:auto;
+  width:112px;
+  height:44px;
+  max-width:100%;
+  object-fit:contain;
+  transform:none;
+}
+@media(max-width:760px){
+  .header-logo-pair{align-items:center}
+  .header-logo-pair>.header-logo-canvas,
+  .header-logo-pair>.header-logo-canvas:first-child,
+  .header-logo-pair>.header-logo-canvas:last-child{display:flex;align-items:center;justify-content:center;width:68px;height:31px}
+  .header-logo-pair>.header-logo-canvas>.header-aapg-mark,
+  .header-logo-pair>.header-logo-canvas:last-child>.header-eage-mark{position:static;inset:auto;width:68px;height:31px;max-width:68px;object-fit:contain;transform:none}
+}
