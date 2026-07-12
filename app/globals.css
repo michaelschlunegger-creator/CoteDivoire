@@ -177,3 +177,22 @@ body{overflow-x:hidden}
 .header-logo-pair .header-aapg-mark{filter:brightness(0) invert(1)}
 .header-logo-pair .header-eage-mark{filter:none}
 @media(max-width:760px){.header-logo-pair .header-logo-canvas,.header-logo-pair .header-logo-canvas:first-child,.header-logo-pair .header-logo-canvas:last-child{width:68px;height:31px}.header-logo-pair .header-aapg-mark,.header-logo-pair .header-eage-mark{width:68px;height:31px}}
+
+/* Defeat the legacy second-logo crop rule at every breakpoint. */
+.header-logo-pair>.header-logo-canvas:last-child>.header-eage-mark{
+  position:static;
+  inset:auto;
+  width:112px;
+  height:44px;
+  max-width:100%;
+  object-fit:contain;
+  transform:none;
+}
+@media(max-width:760px){
+  .header-logo-pair{align-items:center}
+  .header-logo-pair>.header-logo-canvas,
+  .header-logo-pair>.header-logo-canvas:first-child,
+  .header-logo-pair>.header-logo-canvas:last-child{display:flex;align-items:center;justify-content:center;width:68px;height:31px}
+  .header-logo-pair>.header-logo-canvas>.header-aapg-mark,
+  .header-logo-pair>.header-logo-canvas:last-child>.header-eage-mark{position:static;inset:auto;width:68px;height:31px;max-width:68px;object-fit:contain;transform:none}
+}
