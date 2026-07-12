@@ -1,4 +1,18 @@
-import{getRuntimeEnv}from"@/lib/runtime-env";
-type Mail={to:string;subject:string;heading:string;body:string;actionLabel?:string;actionUrl?:string};
-export async function sendParticipantEmail(mail:Mail){const env=getRuntimeEnv();if(!env.RESEND_API_KEY||!env.NOTIFICATION_FROM_EMAIL)return{status:"not_configured"};const html=`<div style="font-family:Arial,sans-serif;max-width:640px;margin:auto;color:#041521"><div style="background:#041521;padding:25px;border-bottom:4px solid #008b6c"><p style="margin:0;color:#e6ae3c;font-size:11px;letter-spacing:2px">AAPG · EAGE</p><strong style="display:block;margin-top:8px;font-size:22px;color:#fff">West African Transform Margin 2027</strong></div><div style="padding:28px;border:1px solid #d8e2e3"><h1 style="font-size:26px">${escapeHtml(mail.heading)}</h1><p style="line-height:1.7">${escapeHtml(mail.body)}</p>${mail.actionLabel&&mail.actionUrl?`<p style="margin-top:25px"><a href="${escapeHtml(mail.actionUrl)}" style="display:inline-block;background:#19b7a7;color:#041521;padding:13px 20px;border-radius:999px;font-weight:700;text-decoration:none">${escapeHtml(mail.actionLabel)}</a></p>`:""}<p style="margin-top:30px;color:#71808a;font-size:12px">19–21 April 2027 · Abidjan, Côte d’Ivoire</p></div></div>`;const response=await fetch("https://api.resend.com/emails",{method:"POST",headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`,"Content-Type":"application/json"},body:JSON.stringify({from:env.NOTIFICATION_FROM_EMAIL,to:[mail.to],subject:mail.subject,html})});return{status:response.ok?"sent":"failed"}}
-function escapeHtml(value:string){return value.replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[char]!))}
+import { getRuntimeEnv } from "@/lib/runtime-env";
+
+type Mail = { to: string; subject: string; heading: string; body: string; actionLabel?: string; actionUrl?: string };
+
+export function isParticipantEmailConfigured() {
+  const env = getRuntimeEnv();
+  return Boolean(env.RESEND_API_KEY && env.NOTIFICATION_FROM_EMAIL);
+}
+
+export async function sendParticipantEmail(mail: Mail) {
+  const env = getRuntimeEnv();
+  if (!env.RESEND_API_KEY || !env.NOTIFICATION_FROM_EMAIL) return { status: "not_configured" };
+  const html = `<div style="font-family:Arial,sans-serif;max-width:640px;margin:auto;color:#041521"><div style="background:#041521;padding:25px;border-bottom:4px solid #008b6c"><p style="margin:0;color:#e6ae3c;font-size:11px;letter-spacing:2px">AAPG · EAGE</p><strong style="display:block;margin-top:8px;font-size:22px;color:#fff">West African Transform Margin 2027</strong></div><div style="padding:28px;border:1px solid #d8e2e3"><h1 style="font-size:26px">${escapeHtml(mail.heading)}</h1><p style="line-height:1.7">${escapeHtml(mail.body)}</p>${mail.actionLabel && mail.actionUrl ? `<p style="margin-top:25px"><a href="${escapeHtml(mail.actionUrl)}" style="display:inline-block;background:#19b7a7;color:#041521;padding:13px 20px;border-radius:999px;font-weight:700;text-decoration:none">${escapeHtml(mail.actionLabel)}</a></p>` : ""}<p style="margin-top:30px;color:#71808a;font-size:12px">19–21 April 2027 · Abidjan, Côte d’Ivoire</p></div></div>`;
+  const response = await fetch("https://api.resend.com/emails", { method: "POST", headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" }, body: JSON.stringify({ from: env.NOTIFICATION_FROM_EMAIL, to: [mail.to], subject: mail.subject, html }) });
+  return { status: response.ok ? "sent" : "failed" };
+}
+
+function escapeHtml(value: string) { return value.replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[char]!)); }

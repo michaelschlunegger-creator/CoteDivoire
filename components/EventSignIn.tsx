@@ -49,14 +49,16 @@ export function EventSignIn({returnTo="/dashboard",journey="signin"}:{returnTo?:
         headers:{"Content-Type":"application/json"},
         body:JSON.stringify({email}),
       });
-      const data=await response.json() as {error?:string};
+      const data=await response.json() as {error?:string;email?:string;retryAfter?:number};
       if(!response.ok){
         setStatus(data.error||"Unable to send code.");
         return false;
       }
+      const target=data.email||email.trim().toLowerCase();
+      setEmail(target);
       setStep("code");
-      setResendWait(RESEND_WAIT_SECONDS);
-      setStatus(`A new six-digit code was sent to ${email}. Use only the newest code.`);
+      setResendWait(data.retryAfter||RESEND_WAIT_SECONDS);
+      setStatus(`A new six-digit code was sent to ${target}. Use only the newest code.`);
       return true;
     }finally{
       requestInFlight.current=false;

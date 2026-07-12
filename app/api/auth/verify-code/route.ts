@@ -2,13 +2,12 @@ import { eventAuthConfig,eventSessionCookies } from "@/lib/event-auth";
 import { ensureParticipantAccess,participantAccessError } from "@/lib/participant-access";
 
 type VerificationData={access_token?:string;refresh_token?:string;expires_in?:number;message?:string;msg?:string;error_code?:string};
-type EmailOtpType="email"|"signup"|"magiclink";
-
-async function verifyEmailCode(url:string,key:string,email:string,code:string,type:EmailOtpType){
+async function verifyEmailCode(url:string,key:string,email:string,code:string){
   const response=await fetch(`${url}/auth/v1/verify`,{
     method:"POST",
     headers:{apikey:key,"Content-Type":"application/json"},
-    body:JSON.stringify({type,email,token:code}),
+    cache:"no-store",
+    body:JSON.stringify({type:"email",email,token:code}),
   });
   const data=await response.json() as VerificationData;
   return{response,data};
@@ -23,17 +22,7 @@ export async function POST(request:Request){
     }
 
     const{url,key}=eventAuthConfig();
-    let result=await verifyEmailCode(url,key,normalized,code!,"email");
-
-    // Supabase can classify a first-time OTP as signup and an existing-user OTP
-    // as email/magiclink. The aliases remain supported by GoTrue, so retrying the
-    // same email-bound token keeps the flow compatible without weakening it.
-    if(!result.response.ok){
-      result=await verifyEmailCode(url,key,normalized,code!,"signup");
-    }
-    if(!result.response.ok){
-      result=await verifyEmailCode(url,key,normalized,code!,"magiclink");
-    }
+    const result=await verifyEmailCode(url,key,normalized,code!);
 
     const{response,data}=result;
     if(!response.ok||!data.access_token||!data.refresh_token){
@@ -47,10 +36,11 @@ export async function POST(request:Request){
     }
 
     const headers=new Headers({"Content-Type":"application/json"});
-    for(const cookie of eventSessionCookies({access_token:data.access_token,refresh_token:data.refresh_token,expires_in:data.expires_in,sessionVersion:access.sessionVersion})){
+    for(const cookie of eventSessionCookies({access_token:data.access_token,refresh_token:data.refresh_token,expires_in:data.expires_in,sessionVersion:access.sessionVersion,registrationVerified:true})){
       headers.append("Set-Cookie",cookie);
     }
-    return new Response(JSON.stringify({verified:true}),{status:200,headers});
+    headers.set("Cache-Control","no-store, max-age=0");
+    return new Response(JSON.stringify({verified:true,email:normalized}),{status:200,headers});
   }catch(error){
     return Response.json({error:error instanceof Error?error.message:"Unable to verify code."},{status:500});
   }
