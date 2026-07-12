@@ -1,0 +1,12 @@
+export const TECHNICAL_THEMES=[
+  {shortTitle:"Margin architecture",title:"Regional Setting, Basin Evolution and Transform Margin Architecture",summary:"Regional evolution, fracture zones, basin segmentation, stratigraphy, sediment routing and remaining play fairways."},
+  {shortTitle:"Petroleum systems",title:"Petroleum Systems, Charge and Reservoir Fairways",summary:"Source rocks, charge access, migration, hydrocarbon phase, deepwater reservoirs, trap styles, seals and regional risking."},
+  {shortTitle:"Discoveries & fields",title:"Discoveries, Fields and Lessons Learned",summary:"Practical lessons from Jubilee, TEN, Sankofa, Baleine, Calao and frontier drilling—including successes and disappointments."},
+  {shortTitle:"Emerging frontiers",title:"Emerging Plays and Frontier Exploration Potential",summary:"Ultra-deepwater, subtle traps, untested fairways, deeper stratigraphy and new venture opportunities from Sierra Leone to Nigeria."},
+  {shortTitle:"Data & workflows",title:"Data, Technology and Integrated Subsurface Workflows",summary:"Integrated interpretation, legacy and modern data, rock physics, machine learning and digital portfolio-risking workflows."},
+  {shortTitle:"Development & strategy",title:"Development, Production, Gas and Future Strategy",summary:"Reservoir management, FPSO development, infrastructure-led exploration, gas monetisation and long-term regional investment strategy."},
+] as const;
+
+export const COMMITTEE=[
+  ["Samuel Essoh","Co-Chair","PetroCI"],["Paul Bellingham","Co-Chair","BGP"],["Fernando Mingo Botin","Co-Chair","ENI"],["Victor Ogunmola","Member","AAPG / ExxonMobil"],["Sebastian Hubbard","Member","DUG"],["Dag Helland Hansen","Member","EMGS"],["Fabien Laugier","Member","ExxonMobil"],["Osivwi Thomas-Ideh","Member","ExxonMobil"],["Guillaume Maillet","Member","Foxtrot"],["Ali Moradi","Member","GeoSoftware"],["Ifeanyi Ikueze","Member","Halliburton"],["Romel Arellano","Member","Meren"],["Martin Anderson","Member","Murphy Oil"],["Ståle Monstad","Member","Pecan Energies"],["Eudora Ochai-Audu","Member","Renaissance Africa Energy"],["K.B. Trivedi","Member","SANPC"],["Ifeanyi Obi","Member","Seplat Energy"],["Joseph Sutcliffe","Member","SLB"],["Marjosbet Uzcategui Salazar (Majo)","Member","SLB"],["Thomas Hansen","Member","TGS"],["Ademola Lanisa","Member","TotalEnergies"],["Vincent Delhaye-Prat","Member","TotalEnergies"],["Madhurima Bhattacharya","Member","Viridien"],
+] as const;

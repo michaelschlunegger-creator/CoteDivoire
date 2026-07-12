@@ -1,0 +1,3 @@
+import type { Metadata } from "next"; import { PageShell } from "@/components/PageShell"; import { ResourceLibrary } from "@/components/ResourceLibrary";
+export const metadata:Metadata={title:"Resources"};
+export default function ResourcesPage(){return <PageShell><main><section className="page-hero"><div className="page-hero-inner"><div className="breadcrumb"><span>Home</span><span>/</span><span>Resources</span></div><p className="eyebrow">YOUR EVENT LIBRARY</p><h1>Material, forms<br/>and downloads.</h1><p>Find the latest programme, participant forms, exhibitor information, travel notes and approved event material.</p></div></section><section className="content-shell"><ResourceLibrary/></section></main></PageShell>}

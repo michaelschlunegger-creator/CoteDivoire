@@ -1,0 +1,2 @@
+import { desc,eq } from "drizzle-orm"; import { getEventUser } from "@/lib/event-auth"; import { getDb } from "@/db"; import { registrations } from "@/db/schema";
+export async function GET(){const user=await getEventUser();if(!user)return Response.json({error:"Sign in required."},{status:401});const rows=await getDb().select().from(registrations).where(eq(registrations.email,user.email)).orderBy(desc(registrations.createdAt)).limit(1);return Response.json({registration:rows[0]||null})}

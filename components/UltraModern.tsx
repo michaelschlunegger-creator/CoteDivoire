@@ -1,0 +1,37 @@
+"use client";
+
+import Link from "next/link";
+import { MouseEvent, ReactNode, useEffect, useMemo, useState } from "react";
+
+export function ModernEffects(){
+  const[progress,setProgress]=useState(0);
+  useEffect(()=>{const update=()=>{const max=document.documentElement.scrollHeight-innerHeight;setProgress(max>0?scrollY/max*100:0)};update();addEventListener("scroll",update,{passive:true});const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting)entry.target.classList.add("is-visible")}),{threshold:.14});document.querySelectorAll("[data-reveal]").forEach(el=>observer.observe(el));return()=>{removeEventListener("scroll",update);observer.disconnect()}},[]);
+  return <div className="scroll-progress" style={{width:`${progress}%`}} aria-hidden="true"/>;
+}
+
+function useCountdown(){
+  const[target]=useState(()=>new Date("2027-04-19T09:00:00+00:00").getTime());
+  const[now,setNow]=useState(()=>Date.now());
+  useEffect(()=>{const id=setInterval(()=>setNow(Date.now()),1000);return()=>clearInterval(id)},[]);
+  return useMemo(()=>{const d=Math.max(0,target-now);return{days:Math.floor(d/86400000),hours:Math.floor(d/3600000)%24,minutes:Math.floor(d/60000)%60,seconds:Math.floor(d/1000)%60}},[now,target]);
+}
+
+export function EventPulse(){const time=useCountdown();return <section className="pulse-section" data-reveal><div className="pulse-orbit orbit-one"/><div className="pulse-orbit orbit-two"/><div className="pulse-inner"><div className="pulse-copy"><span className="live-label"><i/> THE COUNTDOWN IS ON</span><h2>Abidjan becomes the centre of the transform-margin conversation.</h2><p>New programme releases, speaker announcements and participant materials will appear here as they are confirmed by AAPG and EAGE.</p><Link href="/register#email-verification" className="magnetic-link">Register for Event <span>↗</span></Link></div><div className="countdown" aria-label="Countdown to the event"><Time value={time.days} label="Days"/><Time value={time.hours} label="Hours"/><Time value={time.minutes} label="Minutes"/><Time value={time.seconds} label="Seconds"/></div></div></section>}
+function Time({value,label}:{value:number;label:string}){return <div className="time-block"><strong>{String(value).padStart(2,"0")}</strong><span>{label}</span></div>}
+
+const paths={
+  discover:{number:"01",label:"Discover",title:"Connect one margin across seven countries.",copy:"Compare regional frameworks, petroleum systems, discoveries and emerging fairways from Sierra Leone through Nigeria.",meta:["Transform tectonics","Deepwater systems","Regional fairways"]},
+  connect:{number:"02",label:"Connect",title:"Meet the people shaping the next exploration cycle.",copy:"Build high-value relationships with NOCs, regulators, operators, independents, service companies, investors and technical specialists.",meta:["Regional dialogue","Curated networking","International community"]},
+  contribute:{number:"03",label:"Contribute",title:"Put practical evidence into the room.",copy:"Bring case studies, post-well learning, data-led workflows and development experience to a focused technical audience.",meta:["Case studies","Post-well insight","Technical exchange"]},
+};
+type PathKey=keyof typeof paths;
+export function PathFinder(){const[active,setActive]=useState<PathKey>("discover");const path=paths[active];return <section className="pathfinder section" data-reveal><div className="section-inner"><div className="pathfinder-head"><div><p className="eyebrow">DESIGN YOUR EXPERIENCE</p><h2>What brings<br/>you to Abidjan?</h2></div><div className="path-tabs" role="tablist">{(Object.keys(paths) as PathKey[]).map(key=><button role="tab" aria-selected={active===key} className={active===key?"active":""} key={key} onClick={()=>setActive(key)}><span>{paths[key].number}</span>{paths[key].label}</button>)}</div></div><article className="path-stage"><div className="path-grid"><span className="path-number">{path.number}</span><div><p className="eyebrow">{path.label.toUpperCase()} YOUR NEXT OPPORTUNITY</p><h3>{path.title}</h3><p>{path.copy}</p><div className="meta-pills">{path.meta.map(item=><span key={item}>{item}</span>)}</div></div><Link href={active==="contribute"?"/register":"/about"} className="round-arrow" aria-label={`Explore ${path.label}`}>↗</Link></div></article></div></section>}
+
+const days=[
+  {day:"01",date:"19 APR",theme:"Frame",title:"Architecture, petroleum systems and shared context",items:["Opening perspectives","Transform-margin architecture","Petroleum systems & charge","Welcome networking · time pending"]},
+  {day:"02",date:"20 APR",theme:"Learn",title:"Discoveries, real wells and emerging plays",items:["Jubilee, TEN & Sankofa","Baleine, Calao & Côte d’Ivoire","Frontier post-well learning","Official networking event · pending"]},
+  {day:"03",date:"21 APR",theme:"Advance",title:"Data workflows, development and future strategy",items:["Integrated subsurface workflows","Development, production & gas","Future exploration strategy","Closing margin panel"]},
+];
+export function ProgrammeExplorer(){const[active,setActive]=useState(0);const item=days[active];return <section className="programme-lab section" id="programme-lab" data-reveal><div className="section-inner"><div className="section-head"><div><p className="eyebrow">INTERACTIVE PROGRAMME PREVIEW</p><h2>Three days,<br/>one connected margin.</h2></div><p className="section-lead">This is a draft programme structure based on the confirmed technical outline. Session times and speakers are awaiting organizer approval.</p></div><div className="programme-console"><div className="day-rail" role="tablist">{days.map((d,i)=><button key={d.day} className={active===i?"active":""} onClick={()=>setActive(i)} role="tab" aria-selected={active===i}><span>DAY {d.day}</span><strong>{d.date}</strong><i/></button>)}</div><div className="programme-stage"><div className="programme-signal"><span>{item.theme}</span><b>{item.day}</b></div><div><p className="eyebrow">DAY {item.day} · {item.date}</p><h3>{item.title}</h3><ul>{item.items.map(value=><li key={value}><span>↳</span>{value}</li>)}</ul><Link href="/programme" className="magnetic-link">Open programme page <span>↗</span></Link></div></div></div></div></section>}
+
+export function SpotlightCard({children,className=""}:{children:ReactNode;className?:string}){function move(e:MouseEvent<HTMLElement>){const rect=e.currentTarget.getBoundingClientRect();e.currentTarget.style.setProperty("--mx",`${e.clientX-rect.left}px`);e.currentTarget.style.setProperty("--my",`${e.clientY-rect.top}px`)}return <article onMouseMove={move} className={`spotlight-card ${className}`}>{children}</article>}

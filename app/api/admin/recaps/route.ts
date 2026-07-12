@@ -1,0 +1,9 @@
+import { asc,eq,inArray } from "drizzle-orm";
+import { getEventUser } from "@/lib/event-auth";
+import { getDb } from "@/db";
+import { dailyRecaps,recapPhotos } from "@/db/schema";
+import { isAdminEmail } from "@/lib/admin";
+
+async function admin(){const user=await getEventUser();return user&&isAdminEmail(user.email)?user:null}
+export async function GET(){const user=await admin();if(!user)return Response.json({error:"Organizer access required."},{status:403});const db=getDb();const recaps=await db.select().from(dailyRecaps).orderBy(asc(dailyRecaps.dayNumber));if(!recaps.length)return Response.json({recaps:[]});const photos=await db.select().from(recapPhotos).where(inArray(recapPhotos.recapId,recaps.map(r=>r.id))).orderBy(asc(recapPhotos.sortOrder),asc(recapPhotos.id));return Response.json({recaps:recaps.map(recap=>({...recap,photos:photos.filter(photo=>photo.recapId===recap.id)}))})}
+export async function POST(request:Request){const user=await admin();if(!user)return Response.json({error:"Organizer access required."},{status:403});const body=await request.json() as {dayNumber?:number;eventDate?:string;title?:string;summary?:string};const dayNumber=Number(body.dayNumber);if(!Number.isInteger(dayNumber)||dayNumber<1||dayNumber>3||!body.eventDate||!body.title?.trim())return Response.json({error:"Day, date and title are required."},{status:400});const existing=await getDb().select({id:dailyRecaps.id}).from(dailyRecaps).where(eq(dailyRecaps.dayNumber,dayNumber)).limit(1);if(existing.length)return Response.json({error:"A recap already exists for that day."},{status:409});const[recap]=await getDb().insert(dailyRecaps).values({dayNumber,eventDate:body.eventDate,title:body.title.trim(),summary:body.summary?.trim()||"",createdBy:user.email}).returning();return Response.json({recap:{...recap,photos:[]}},{status:201})}
