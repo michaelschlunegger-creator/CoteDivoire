@@ -1,0 +1,5 @@
+import type{Metadata}from"next";
+import Link from"next/link";
+import{PageShell}from"@/components/PageShell";
+export const metadata:Metadata={title:"Letter from the Chairs"};
+export default function LetterFromChairsPage(){return <PageShell><main><section className="page-hero"><div className="page-hero-inner"><div className="breadcrumb"><span>Home</span><span>/</span><span>About</span><span>/</span><span>Letter from the Chairs</span></div><p className="eyebrow">WELCOME TO ABIDJAN</p><h1>A message from<br/>the symposium chairs.</h1><p>The official welcome letter is awaiting organizer approval and will be published without placeholder quotations or unconfirmed signatories.</p></div></section><section className="content-shell"><div className="policy-placeholder"><span>CONTENT PENDING</span><h2>The chairs’ letter will appear here.</h2><p>Until the approved message is received, the confirmed technical committee remains available on its dedicated page.</p><Link className="button" href="/committee">View the committee →</Link></div></section></main></PageShell>}
