@@ -23,7 +23,7 @@ export async function SiteHeader(){
     <Link className="brand" href="/" aria-label="West African Transform Margin 2027 home">
       <span className="header-logo-pair" aria-label="AAPG and EAGE">
         <span className="header-logo-canvas"><img className="header-aapg-mark" src="/images/aapg-logo.png" alt="AAPG"/></span>
-        <span className="header-logo-canvas eage-wordmark-crop"><img className="header-eage-mark" src="/images/eage-logo.png" alt="EAGE"/></span>
+        <span className="header-logo-canvas"><img className="header-eage-mark" src="/images/eage-wordmark-white.svg" alt="EAGE"/></span>
       </span>
       <span className="brand-divider"/>
       <span className="event-brand-title"><strong>West African Transform Margin Symposium</strong><small>Proven Successes and Emerging Frontiers</small></span>
