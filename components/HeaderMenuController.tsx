@@ -47,7 +47,9 @@ export function HeaderMenuController() {
     }
 
     function handleNavigation(event: Event) {
-      if ((event.target as Element | null)?.closest("a")) closeMenus();
+      if ((event.target as Element | null)?.closest("a")) {
+        window.requestAnimationFrame(() => closeMenus());
+      }
     }
 
     for (const menu of desktopMenus) menu.addEventListener("toggle", handleDesktopToggle);
