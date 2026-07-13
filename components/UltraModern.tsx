@@ -1,23 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { MouseEvent, ReactNode, useEffect, useMemo, useState } from "react";
+import { MouseEvent, ReactNode, useEffect, useState } from "react";
 
 export function ModernEffects(){
   const[progress,setProgress]=useState(0);
   useEffect(()=>{const update=()=>{const max=document.documentElement.scrollHeight-innerHeight;setProgress(max>0?scrollY/max*100:0)};update();addEventListener("scroll",update,{passive:true});const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting)entry.target.classList.add("is-visible")}),{threshold:.14});document.querySelectorAll("[data-reveal]").forEach(el=>observer.observe(el));return()=>{removeEventListener("scroll",update);observer.disconnect()}},[]);
+  useEffect(()=>{const root=document.querySelector<HTMLElement>("[data-countdown-target]");if(!root)return;const target=new Date(root.dataset.countdownTarget||"").getTime();if(!Number.isFinite(target))return;const update=()=>{const remaining=Math.max(0,target-Date.now());const values={days:Math.floor(remaining/86400000),hours:Math.floor(remaining/3600000)%24,minutes:Math.floor(remaining/60000)%60,seconds:Math.floor(remaining/1000)%60};for(const[unit,value]of Object.entries(values)){const output=root.querySelector<HTMLElement>(`[data-countdown-unit="${unit}"]`);if(output)output.textContent=String(value).padStart(2,"0")}};update();const id=setInterval(update,1000);return()=>clearInterval(id)},[]);
   return <div className="scroll-progress" style={{width:`${progress}%`}} aria-hidden="true"/>;
 }
-
-function useCountdown(){
-  const[target]=useState(()=>new Date("2027-04-19T09:00:00+00:00").getTime());
-  const[now,setNow]=useState(()=>Date.now());
-  useEffect(()=>{const id=setInterval(()=>setNow(Date.now()),1000);return()=>clearInterval(id)},[]);
-  return useMemo(()=>{const d=Math.max(0,target-now);return{days:Math.floor(d/86400000),hours:Math.floor(d/3600000)%24,minutes:Math.floor(d/60000)%60,seconds:Math.floor(d/1000)%60}},[now,target]);
-}
-
-export function EventPulse(){const time=useCountdown();return <section className="pulse-section" data-reveal><div className="pulse-orbit orbit-one"/><div className="pulse-orbit orbit-two"/><div className="pulse-inner"><div className="pulse-copy"><span className="live-label"><i/> THE COUNTDOWN IS ON</span><h2>Abidjan becomes the centre of the transform-margin conversation.</h2><p>New programme releases, speaker announcements and participant materials will appear here as they are confirmed by AAPG and EAGE.</p><Link href="/register#email-verification" className="magnetic-link">Register for Event <span>↗</span></Link></div><div className="countdown" aria-label="Countdown to the event"><Time value={time.days} label="Days"/><Time value={time.hours} label="Hours"/><Time value={time.minutes} label="Minutes"/><Time value={time.seconds} label="Seconds"/></div></div></section>}
-function Time({value,label}:{value:number;label:string}){return <div className="time-block"><strong>{String(value).padStart(2,"0")}</strong><span>{label}</span></div>}
 
 const paths={
   discover:{number:"01",label:"Discover",title:"Connect one margin across seven countries.",copy:"Compare regional frameworks, petroleum systems, discoveries and emerging fairways from Sierra Leone through Nigeria.",meta:["Transform tectonics","Deepwater systems","Regional fairways"]},
