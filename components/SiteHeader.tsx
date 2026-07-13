@@ -31,6 +31,7 @@ export async function SiteHeader(){
     </Link>
     <nav className="desktop-nav grouped-nav" aria-label="Primary navigation">{SITE_NAVIGATION.map(group=><details className="nav-dropdown" key={group.label}><summary>{group.label}<span>⌄</span></summary><div className="nav-dropdown-panel"><div><small>EXPLORE</small><strong>{group.label}</strong><p>{group.description}</p></div><div>{group.items.map(item=><Link key={item.href} href={item.href}>{item.label}{item.status==="pending"&&<small>Pending</small>}</Link>)}</div></div></details>)}{admin&&<Link className="admin-nav-link" href="/admin">Admin</Link>}</nav>
     <div className="nav-actions">
+      <Link className="header-home-link" href="/" aria-label="Go to the homepage"><span className="header-home-icon" aria-hidden="true"/><span className="header-home-label">Home</span></Link>
       {user?<><Link className="text-link desktop-only account-link" href="/dashboard">{participantName}</Link><Link className="text-link desktop-only signout-link" href="/api/auth/signout">Sign out</Link></>:<Link className="text-link desktop-only" href="/signin">Participant Sign In</Link>}
       {user?<Link className="button button-small hub-button" href="/dashboard">My Hub <span>↗</span></Link>:<RegisterCtaLink className="button button-small">Register <span>↗</span></RegisterCtaLink>}
       <details className="mobile-menu">
