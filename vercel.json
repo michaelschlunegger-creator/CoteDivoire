@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/:path*",
+      "destination": "https://west-african-transform-2027.michael-schlunegger.chatgpt.site/:path*"
+    }
+  ]
+}
