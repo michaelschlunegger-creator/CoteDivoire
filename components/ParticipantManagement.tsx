@@ -150,7 +150,7 @@ export function ParticipantManagement() {
         <div className="participant-table-row participant-table-header" role="row"><span>Participant</span><span>Event record</span><span>Status</span><span>Controls</span></div>
         {filtered.length ? filtered.map(participant => <div className="participant-table-row" role="row" key={participant.email}>
           <div className="participant-identity"><strong>{participant.fullName}</strong><a href={`mailto:${participant.email}`}>{participant.email}</a><small>{[participant.jobTitle, participant.organization].filter(Boolean).join(" · ") || "Registration not completed"}</small></div>
-          <div className="participant-record"><strong>{participant.participationType}</strong><small>{participant.country || "Country pending"}</small><div><span>{participant.reservationCount} reservations</span><span>{participant.feedbackCount} feedback</span></div></div>
+          <div className="participant-record"><strong>{participant.participationType}</strong><small>{participant.country || "Country pending"}</small><div><span>Registration: {participant.registrationStatus}</span><span>{participant.reservationCount} reservations</span><span>{participant.feedbackCount} feedback</span></div></div>
           <div><span className={`lifecycle-status ${participant.status}`}>{participant.status === "soft_deleted" ? "Archived" : participant.status}</span>{participant.note && <small className="lifecycle-note">{participant.note}</small>}</div>
           <div className="participant-actions">
             <a className="admin-action" href={`/api/admin/participants/export?email=${encodeURIComponent(participant.email)}`}>Export</a>

@@ -7,6 +7,7 @@ import{getDb}from"@/db";
 import{registrations}from"@/db/schema";
 import{participantDisplayName}from"@/lib/participant-name";
 import{SITE_NAVIGATION}from"@/lib/site-navigation";
+import{HeaderMenuController}from"@/components/HeaderMenuController";
 
 export async function SiteHeader(){
   const user=await getEventUser();
@@ -19,7 +20,7 @@ export async function SiteHeader(){
     }catch{}
   }
 
-  return <header className="site-header"><div className="nav-shell">
+  return <header className="site-header"><HeaderMenuController/><div className="nav-shell">
     <Link className="brand" href="/" aria-label="West African Transform Margin 2027 home">
       <span className="header-logo-pair" aria-label="AAPG and EAGE">
         <span className="header-logo-canvas"><img className="header-aapg-mark" src="/images/aapg-logo.png" alt="AAPG"/></span>
