@@ -33,7 +33,20 @@ export async function SiteHeader(){
     <div className="nav-actions">
       {user?<><Link className="text-link desktop-only account-link" href="/dashboard">{participantName}</Link><Link className="text-link desktop-only signout-link" href="/api/auth/signout">Sign out</Link></>:<Link className="text-link desktop-only" href="/signin">Participant Sign In</Link>}
       {user?<Link className="button button-small hub-button" href="/dashboard">My Hub <span>↗</span></Link>:<RegisterCtaLink className="button button-small">Register <span>↗</span></RegisterCtaLink>}
-      <details className="mobile-menu"><summary aria-label="Open menu">☰</summary><div className="mobile-menu-panel">{SITE_NAVIGATION.map(group=><details className="mobile-nav-group" key={group.label}><summary>{group.label}<span>⌄</span></summary><div>{group.items.map(item=><Link key={item.href} href={item.href}>{item.label}</Link>)}</div></details>)}{admin&&<Link href="/admin">Organizer studio</Link>}{user?<><Link href="/dashboard">My participant hub</Link><Link href="/api/auth/signout">Sign out</Link></>:<><Link href="/register#email-verification">Register for Event</Link><Link href="/signin">Participant sign in</Link></>}</div></details>
+      <details className="mobile-menu">
+        <summary aria-label="Toggle primary navigation"><span className="mobile-menu-icon" aria-hidden="true"><i/><i/><i/></span></summary>
+        <div className="mobile-menu-panel">
+          <div className="mobile-menu-heading"><small>EXPLORE</small><strong>Symposium navigation</strong></div>
+          <div className="mobile-menu-groups">{SITE_NAVIGATION.map(group=><details className="mobile-nav-group" key={group.label}>
+            <summary><span>{group.label}</span><span className="mobile-nav-chevron" aria-hidden="true"/></summary>
+            <div>{group.items.map(item=><Link key={item.href} href={item.href}><span>{item.label}</span>{item.status==="pending"&&<small>Pending</small>}</Link>)}</div>
+          </details>)}</div>
+          <div className="mobile-menu-actions">
+            {admin&&<Link className="mobile-menu-secondary" href="/admin">Organizer studio <span>→</span></Link>}
+            {user?<><Link className="mobile-menu-primary" href="/dashboard">My participant hub <span>↗</span></Link><Link className="mobile-menu-secondary" href="/api/auth/signout">Sign out <span>→</span></Link></>:<><Link className="mobile-menu-primary" href="/register#email-verification">Register for Event <span>↗</span></Link><Link className="mobile-menu-secondary" href="/signin">Participant sign in <span>→</span></Link></>}
+          </div>
+        </div>
+      </details>
     </div>
   </div></header>;
 }
