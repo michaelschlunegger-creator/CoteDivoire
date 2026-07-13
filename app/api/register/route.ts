@@ -1,4 +1,4 @@
-import{getEventUser}from"@/lib/event-auth";
+import{clearRegistrationProofCookie,getFreshRegistrationUser}from"@/lib/event-auth";
 import{getDb}from"@/db";
 import{registrations}from"@/db/schema";
 import{notifyEventAdmins}from"@/lib/admin-notifications";
@@ -8,7 +8,7 @@ const requiredLabels:Record<string,string>={firstName:"First name",lastName:"Las
 
 export async function POST(request:Request){
   try{
-    const user=await getEventUser();
+    const user=await getFreshRegistrationUser();
     if(!user)return Response.json({error:"Please verify your email before registering."},{status:401});
     const body=await request.json() as Record<string,string>;
     for(const[key,label]of Object.entries(requiredLabels)){
@@ -28,6 +28,8 @@ export async function POST(request:Request){
       notifyEventAdmins({kind:"Registration",title:`New ${body.participationType} registration`,detail:`${fullName} from ${body.organization} registered for West African Transform Margin 2027.`,contactEmail:verifiedEmail,fields:{Name:fullName,Email:verifiedEmail,Organization:body.organization,"Job title":body.jobTitle,Country:body.country,Participation:body.participationType,Interests:body.interests}}),
       sendParticipantEmail({to:verifiedEmail,subject:"Registration received · WAT Margin 2027",heading:"Your registration is linked to your participant hub",body:`Thank you, ${fullName}. Your ${body.participationType} registration has been received. Programme, travel and venue details will be updated as they are confirmed.`,actionLabel:"Open participant hub",actionUrl:`${new URL(request.url).origin}/dashboard`}),
     ]);
-    return Response.json({registration},{status:201});
+    const headers=new Headers({"Content-Type":"application/json","Cache-Control":"no-store, max-age=0"});
+    headers.append("Set-Cookie",clearRegistrationProofCookie());
+    return new Response(JSON.stringify({registration}),{status:201,headers});
   }catch(error){return Response.json({error:error instanceof Error?error.message:"Unable to register."},{status:500})}
 }
