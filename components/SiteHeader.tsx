@@ -27,7 +27,7 @@ export async function SiteHeader(){
         <span className="header-logo-canvas"><img className="header-eage-mark" src="/images/eage-wordmark-white.svg" alt="EAGE"/></span>
       </span>
       <span className="brand-divider"/>
-      <span className="event-brand-title"><strong>West African Transform Margin Symposium</strong><small>Proven Successes and Emerging Frontiers</small></span>
+      <span className="event-brand-title"><strong>West African Transform Margin Symposium</strong><small>Proven Successes and Emerging Frontiers</small><small className="event-brand-meta">19–21 April 2027 · Abidjan, Côte d’Ivoire</small></span>
     </Link>
     <nav className="desktop-nav grouped-nav" aria-label="Primary navigation">{SITE_NAVIGATION.map(group=><details className="nav-dropdown" key={group.label}><summary>{group.label}<span>⌄</span></summary><div className="nav-dropdown-panel"><div><small>EXPLORE</small><strong>{group.label}</strong><p>{group.description}</p></div><div>{group.items.map(item=><Link key={item.href} href={item.href}>{item.label}{item.status==="pending"&&<small>Pending</small>}</Link>)}</div></div></details>)}{admin&&<Link className="admin-nav-link" href="/admin">Admin</Link>}</nav>
     <div className="nav-actions">
