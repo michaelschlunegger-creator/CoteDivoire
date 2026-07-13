@@ -29,5 +29,10 @@ test("renders development preview metadata", async () => {
     response.headers.get("content-type") ?? "",
     /^text\/html\b/i,
   );
-  assert.match(await response.text(), developmentPreviewMeta);
+  const html=await response.text();
+  assert.match(html, developmentPreviewMeta);
+  assert.match(html,/THE COUNTDOWN IS ON/);
+  assert.match(html,/data-countdown-unit="days"/);
+  assert.doesNotMatch(html,/One sign-in\./);
+  assert.match(html,/eage-wordmark-white\.svg/);
 });
