@@ -120,7 +120,7 @@ body{overflow-x:hidden}
 .brand{gap:18px;min-width:0;flex:0 1 560px}
 .header-logo-pair{display:flex;align-items:center;gap:18px;flex:0 0 auto}
 .header-logo-pair img{display:block;width:104px;height:48px;object-fit:contain;object-position:center}
-.header-aapg-mark{filter:brightness(0) invert(1);opacity:.98}
+.header-aapg-mark{filter:none;opacity:.98}
 .header-eage-mark{opacity:.98}
 .brand-divider{display:block;width:1px;height:58px;flex:0 0 1px;background:linear-gradient(180deg,transparent,rgba(255,255,255,.3),transparent)}
 .brand .event-brand-title{display:flex;min-width:0;flex-direction:column;gap:7px}
@@ -175,7 +175,7 @@ body{overflow-x:hidden}
 /* Information architecture and dropdown navigation */
 .header-logo-pair .header-logo-canvas{position:relative;display:block;width:112px;height:44px;overflow:hidden;padding:0;border:0;border-radius:0;background:transparent!important}
 .header-logo-pair .header-logo-canvas:first-child,.header-logo-pair .header-logo-canvas:last-child{width:112px;height:44px;padding:0;background:transparent!important}
-.header-logo-pair .header-aapg-mark{position:absolute;inset:0;width:112px;height:44px;object-fit:contain;filter:brightness(0) invert(1);transform:none}
+.header-logo-pair .header-aapg-mark{position:absolute;inset:0;width:112px;height:44px;object-fit:contain;filter:none;transform:none}
 .header-logo-pair .eage-wordmark-crop .header-eage-mark{position:absolute;left:50%;top:-7px;bottom:auto;width:143px;height:auto;max-width:none;object-fit:initial;transform:translateX(-50%)}
 .grouped-nav{align-self:stretch;align-items:center}
 .nav-dropdown{position:relative;height:100%;display:flex;align-items:center;color:#d3dee2}
@@ -220,7 +220,7 @@ body{overflow-x:hidden}
 .header-logo-pair .header-logo-canvas:last-child{display:grid;place-items:center;width:112px;height:44px;overflow:visible;padding:0;border:0;border-radius:0;background:transparent!important}
 .header-logo-pair .header-aapg-mark,
 .header-logo-pair .header-eage-mark{position:static;display:block;width:112px;height:44px;max-width:100%;object-fit:contain;object-position:center;transform:none}
-.header-logo-pair .header-aapg-mark{filter:brightness(0) invert(1)}
+.header-logo-pair .header-aapg-mark{filter:none}
 .header-logo-pair .header-eage-mark{filter:none}
 .header-logo-pair>.header-logo-canvas>.header-aapg-mark{transform:scale(1.12);transform-origin:center}
 @media(max-width:760px){.header-logo-pair .header-logo-canvas,.header-logo-pair .header-logo-canvas:first-child,.header-logo-pair .header-logo-canvas:last-child{width:68px;height:31px}.header-logo-pair .header-aapg-mark,.header-logo-pair .header-eage-mark{width:68px;height:31px}}
