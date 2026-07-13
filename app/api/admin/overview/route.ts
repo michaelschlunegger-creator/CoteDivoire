@@ -17,7 +17,7 @@ export async function GET() {
     db.select({ id: activityReservations.id, userEmail: activityReservations.userEmail, activityId: activityReservations.activityId, status: activityReservations.status, createdAt: activityReservations.createdAt }).from(activityReservations).where(eq(activityReservations.status, "confirmed")).orderBy(desc(activityReservations.createdAt)),
   ]);
   const archived = new Set(accessRows.filter(row => row.status === "soft_deleted").map(row => row.userEmail));
-  const visibleRegistrations = registrationRows.filter(row => !archived.has((row.userEmail || row.email).toLowerCase()));
+  const visibleRegistrations = registrationRows.filter(row => { const email=(row.userEmail||row.email).toLowerCase(); return !archived.has(email)&&!isAdminEmail(email); });
   const visibleFeedback = feedbackRows.filter(row => !archived.has((row.userEmail || row.email).toLowerCase()));
   const visibleNotifications = notificationRows.filter(row => !row.contactEmail || !archived.has(row.contactEmail.toLowerCase()));
   const visibleReservations = reservationRows.filter(row => !archived.has(row.userEmail.toLowerCase()));

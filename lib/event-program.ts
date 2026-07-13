@@ -10,3 +10,5 @@ export const CORE_AGENDA:Record<number,{time:string;title:string;location:string
   2:[{time:"09:00",title:"Discoveries, fields & lessons learned",location:"Plenary hall · draft",kind:"Technical"},{time:"11:00",title:"Emerging plays & frontier potential",location:"Technical room · draft",kind:"Technical"},{time:"14:00",title:"Case studies & post-well analysis",location:"Technical room · draft",kind:"Case studies"}],
   3:[{time:"09:00",title:"Data & integrated workflows",location:"Plenary hall · draft",kind:"Technical"},{time:"11:00",title:"Development, production & gas",location:"Technical room · draft",kind:"Strategy"},{time:"13:30",title:"Future of the Transform Margin",location:"Plenary hall · draft",kind:"Closing panel"}],
 };
+export function programmeSessionId(day:number,item:{time:string;title:string}){return `day-${day}-${item.time.replace(":","")}-${item.title.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")}`}
+export const PROGRAMME_SESSIONS=Object.entries(CORE_AGENDA).flatMap(([day,items])=>items.map(item=>({...item,day:Number(day),id:programmeSessionId(Number(day),item)})));

@@ -1,5 +1,5 @@
 import type{Metadata}from"next";
-import{getEventUser}from"@/lib/event-auth";
+import{getFreshRegistrationUser}from"@/lib/event-auth";
 import{PageShell}from"@/components/PageShell";
 import{RegisterForm}from"@/components/RegisterForm";
 import{EventSignIn}from"@/components/EventSignIn";
@@ -14,7 +14,7 @@ const journey=[
 ];
 
 export default async function RegisterPage(){
-  const user=await getEventUser();
+  const user=await getFreshRegistrationUser();
   return <PageShell><main className="register-page">
     <section className="register-cinematic-hero">
       <div className="register-hero-grid" aria-hidden="true"/>
